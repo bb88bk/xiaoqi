@@ -44,7 +44,13 @@
   </style>
 </head>
 <body>
-
+  <input
+    id="titleInput"
+    placeholder="输入文字后即刻生效"
+    style="position:fixed; top:14px; left:calc(50% + 120px); transform:translateX(0);
+           z-index:10; padding:8px 10px; border:1px solid #1e293b; border-radius:10px;
+           background:#0f172a; color:#e2e8f0; width:220px;"
+  />
 
   <!-- 画布 -->
   <div class="stage" id="stage" aria-label="画布">
@@ -140,10 +146,11 @@
         </div>
       <!-- 地址 -->
       <div
-        class="text-item"
-        contenteditable="true"
-        data-font="/assets/fonts/hwxh.ttf"
-        style="
+          id="titleText"                           <!-- 新增：变量名 -->
+          class="text-item"
+          contenteditable="true"
+          data-font="/assets/fonts/hwxh.ttf"
+          style="
             left: 343px;
             top: 416px;
             font-family: 'Font1', sans-serif;
@@ -155,41 +162,40 @@
             opacity: 0.7;
             filter: blur(0.5px);
             mix-blend-mode: normal;
-            text-shadow: normal;
+            text-shadow: none;                     /* ← 修正 */
             transform: rotate(0.15deg);
             width: 245px;
             white-space: normal;
             word-break: break-word;
-        "
-        >
-        北京朝阳区姚家园西里一号院204
-        </div>
+          "
+        >北</div>
+
                 <!-- 地址 -->
         <div
-            class="text-item"
-            contenteditable="true"
-            data-font="/assets/fonts/hwxh.ttf"
-            style="
-                left: 343px;
-                top: 416px;
-                font-family: 'Font1', sans-serif;
-                font-size: 21px;
-                font-weight: 900;
-                line-height: 1.45;
-                letter-spacing: 1px;
-                color: #000000;
-                opacity: 0.2;
-                filter: blur(0.5px);
-                mix-blend-mode: normal;
-                text-shadow: normal;
-                transform: rotate(0.15deg);
-                width: 245px;
-                white-space: normal;
-                word-break: break-word;
-            "
-            >
-            北京朝阳区姚家园西里一号院204
-        </div>
+          id="titleText"                           <!-- 新增：变量名 -->
+          class="text-item"
+          contenteditable="true"
+          data-font="/assets/fonts/hwxh.ttf"
+          style="
+            left: 343px;
+            top: 416px;
+            font-family: 'Font1', sans-serif;
+            font-size: 21px;
+            font-weight: 900;
+            line-height: 1.45;
+            letter-spacing: 1px;
+            color: #000000;
+            opacity: 0.2;
+            filter: blur(0.5px);
+            mix-blend-mode: normal;
+            text-shadow: none;                     /* ← 修正 */
+            transform: rotate(0.15deg);
+            width: 245px;
+            white-space: normal;
+            word-break: break-word;
+          "
+        >北</div>
+
         <!-- 身份证号 -->
         <div
             class="text-item"
@@ -279,8 +285,31 @@
       btn.addEventListener('click', captureStage);
     })();
   </script>
+  <script>
+    (function () {
+      const titleEl = document.getElementById('titleText');   // 变量：你的文字节点
+      const titleInput = document.getElementById('titleInput');
+  
+      // 初始值：把元素里的文字放进输入框
+      if (titleEl && titleInput) {
+        titleInput.value = (titleEl.textContent || '').trim();
+  
+        // 输入框 → 元素（实时）
+        titleInput.addEventListener('input', () => {
+          titleEl.textContent = titleInput.value;
+        });
+  
+        // （可选）元素手动修改 → 输入框（当你直接在页面里编辑这段文字时保持一致）
+        titleEl.addEventListener('input', () => {
+          titleInput.value = (titleEl.textContent || '').trim();
+        });
+      }
+    })();
+  </script>
+
 </body>
 </html>
+
 
 
 
